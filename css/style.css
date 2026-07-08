@@ -1,0 +1,253 @@
+.modal-backdrop.show {
+    opacity: 0.87;
+}
+
+.filosofi-parallax {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.filosofi-parallax .text-box {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 8px;
+    position: relative;
+    z-index: 2;
+}
+
+.lady-img {
+    max-height: 80vh;
+    max-width: 100%;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.8));
+}
+
+/* Registrasi Tipe Data Custom Property (Houdini API) 
+  Membatasi entitas pada integer murni guna memfasilitasi interpolasi animasi matematika 
+*/
+@property --num {
+    syntax: '<integer>';
+    inherits: false;
+    initial-value: 0;
+}
+
+/* Interpolasi asinkron penghitung tanpa pemanggilan reflow pada utas JavaScript */
+@keyframes counterAnimation {
+    from {
+        --num: 0;
+    }
+    to {
+        --num: var(--target, 100);
+    }
+}
+
+.counter-item {
+    font-weight: bold;
+    animation: counterAnimation var(--time, 2s) linear forwards;
+    counter-reset: num var(--num);
+}
+
+/* Injeksi simbol plus (+) secara sintaksis tanpa mengontaminasi kalkulasi numerik dasar */
+.counter-item::before {
+    content: counter(num) "+";
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .lady-img {
+        max-height: 60vh;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .filosofi-parallax {
+        background-attachment: scroll;
+        min-height: 100vh;
+    }
+    .filosofi-parallax .row.min-vh-100 {
+        min-height: auto !important;
+        padding-block: 3rem;
+    }
+    .lady-img {
+        max-height: 50vh;
+        margin-top: 1.5rem;
+    }
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    will-change: opacity, transform;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#gallery .col-md-3 {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#gallery .col-md-3:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+#gallery .col-md-3 img {
+    transition: transform 0.4s ease;
+    overflow: hidden;
+}
+
+#gallery .col-md-3:hover img {
+    transform: scale(1.06);
+}
+
+.join-us {
+    background: #000000;
+    color: #fff;
+}
+
+.join-input {
+    max-width: 320px;
+    border-radius: 30px;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    transition: box-shadow 0.3s ease;
+}
+
+.join-input:focus {
+    box-shadow: 0 0 0 3px rgba(212,255,0,0.6);
+    outline: none;
+}
+
+.join-btn {
+    border-radius: 30px;
+    padding: 0.6rem 1.8rem;
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.join-btn:hover {
+    transform: scale(1.05);
+}
+
+.join-btn:active {
+    transform: scale(0.96);
+}
+
+.modal-dialog {
+    transition: transform 0.35s ease;
+}
+
+#scrollTopBtn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: none;
+    background: #121212;
+    color: #D4FF00;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    pointer-events: none;
+}
+
+#scrollTopBtn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.footer-custom {
+    background-color: #000000;
+    color: #ffffff;
+    border-top: 1px solid #333;
+}
+
+.footer-custom a:hover {
+    color: #D4FF00 !important;
+}
+
+.social-icons a {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.stats-section {
+    background: #ffffff;
+    color: #000;
+    border-bottom: 1px solid #ffffff;
+}
+
+.stats-section h3 {
+    font-size: 2.5rem;
+    color: #000;
+}
+
+.stats-section p {
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    color: #000000;
+}
+.faq-section {
+    background-color: #fdfdfd;
+    padding: 5rem 0;
+  }
+  .faq-custom .accordion-item {
+    border: 1px solid #ebebeb;
+    border-radius: 12px !important;
+    margin-bottom: 1.2rem;
+    overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .faq-custom .accordion-item:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+  }
+  .faq-custom .accordion-button {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #2c2c2c;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    box-shadow: none !important;
+    border: none;
+  }
+  .faq-custom .accordion-button:not(.collapsed) {
+    color: #000000;
+    background-color: #fcfcfc;
+    border-bottom: 1px solid #ebebeb;
+  }
+  .faq-custom .accordion-button::after {
+    filter: grayscale(100%) contrast(150%);
+  }
+  .faq-custom .accordion-body {
+    padding: 1.5rem;
+    color: #555555;
+    line-height: 1.7;
+    background-color: #ffffff;
+    font-size: 1rem;
+  }
+  /* Initial state: hidden and pushed down */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out; /* Adjust the 0.8s to make it faster or slower */
+}
+
+/* Final state: visible and in original position */
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
