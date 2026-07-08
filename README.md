@@ -39,12 +39,16 @@ Proyek ini tidak hanya menampilkan galeri, tetapi juga sebuah narasi sejarah, vi
 
 Pastikan Anda memiliki lingkungan lokal untuk menjalankan file HTML.
 
-```bash
+
 # 1. Clone repositori
+```bash
 git clone [https://github.com/username/gallery-mockers.git](https://github.com/username/gallery-mockers.git)
+```
 
 # 2. Masuk ke direktori
+```bash
 cd gallery-mockers
+```
 
 # 3. Buka index.html di browser Anda
 Pro-tip: Gunakan ekstensi "Live Server" di VS Code untuk pengalaman pengembangan yang lebih efisien.
@@ -52,7 +56,7 @@ Pro-tip: Gunakan ekstensi "Live Server" di VS Code untuk pengalaman pengembangan
 📁 Struktur Proyek
 Struktur direktori dirancang agar modular dan mudah dipahami:
 
-Plaintext
+```Plaintext
 gallery-mockers/
 ├── assets/
 │   ├── icongallerymockers.png   # Logo utama[cite: 5, 6, 7, 8]
@@ -68,5 +72,6 @@ gallery-mockers/
 ├── gallery.html                # Halaman Koleksi[cite: 6]
 ├── history.html                # Halaman Sejarah[cite: 7]
 └── vm.html                     # Halaman Visi & Misi[cite: 8]
+```
 ⚠️ Disclaimer
 Proyek Gallery Mockers ini murni dibuat untuk tujuan edukasi dan portofolio pembelajaran. Semua karya seni, teks, dan data di dalam situs ini bersifat satir dan fiktif. Tidak ada hubungan dengan entitas seni nyata. Dilarang keras memperjualbelikan kode atau konten di dalam repositori ini tanpa izin.
