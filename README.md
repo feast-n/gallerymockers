@@ -206,6 +206,3 @@ Dilarang:
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0f172a&height=100&section=footer&text=Made%20with%20❤️%20for%20Learning&fontSize=18&fontColor=94a3b8&animation=fadeIn&fontAlignY=75" />
 
 </div>
-```
-
-Langsung copy paste ke `README.md` di repo kamu. Semua badge, banner, dan stats card langsung render otomatis di GitHub — tanpa perlu upload gambar atau ganti apapun.
