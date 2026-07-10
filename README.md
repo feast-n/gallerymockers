@@ -9,69 +9,29 @@
 
 *A satirical front-end web development project showcasing the intersection of classical art, modern internet culture, and responsive web design.*
 
-[Tentang](#-tentang) • [Fitur](#-fitur) • [Instalasi](#-instalasi) • [Struktur](#-struktur) • [Disclaimer](#-disclaimer)
+[Explore the Repository](#features) • [Installation](#quick-start) • [Educational Disclaimer](#-educational--fair-use-disclaimer)
 
 </div>
 
 ---
 
-## 📖 Tentang
+## 📖 The Story Behind the Canvas
 
-> **Gallery Mockers** adalah proyek web responsif yang mengeksplorasi jembatan antara karya seni klasik (Renaissance) dengan budaya internet modern yang satir. Proyek ini dibangun untuk mendemonstrasikan keahlian pengembangan web front-end, mulai dari tata letak grid, komponen Bootstrap, hingga animasi scroll yang imersif.
+Art shouldn't always have to be viewed in absolute silence with a furrowed brow. **Gallery Mockers** began as a conceptual experiment: *What happens when Renaissance masterpieces collide with the absurdity of the digital age?* 
 
-Proyek ini tidak hanya menampilkan galeri, tetapi juga sebuah narasi sejarah, visi, dan misi sebuah entitas satir dalam dunia seni[cite: 7, 8].
+This repository houses the front-end architecture of a fictional, satirical art gallery. By combining semantic HTML structure, responsive CSS layouts (via Bootstrap), and subtle UI animations, this project demonstrates how to build an engaging digital narrative from scratch. It is not just a codebase; it is a canvas for digital storytelling.
 
----
+## ✨ Features
 
-## ✨ Fitur
+- **Responsive Grid Architecture**: Built on Bootstrap 5 to ensure a seamless viewing experience from mobile screens to ultrawide monitors.
+- **Scroll-Triggered Animations**: Implementation of modern DOM reveal mechanics to keep users engaged as they traverse the gallery's history.
+- **Semantic UI Design**: Accessible navigation bars, structured card layouts, and robust footer components.
+- **Immersive Narrative**: Curated dummy data (mock text) that tells a compelling, humorous story of an art collective disrupting the classical art scene.
 
-| Fitur | Deskripsi | Status |
-|:------|:----------|:------:|
-| 🎨 **Responsive Layout** | Berbasis Bootstrap 5 untuk pengalaman visual mulus di berbagai perangkat[cite: 5, 6]. | ✅ |
-| 🖼️ **Interactive Gallery** | Tampilan galeri produk dengan elemen interaktif[cite: 6]. | ✅ |
-| 📜 **Historical Context** | Halaman sejarah interaktif yang mendokumentasikan perjalanan kolektif[cite: 7]. | ✅ |
-| 🎯 **Vision & Mission** | Halaman dedikasi yang memaparkan nilai-nilai filosofis galeri[cite: 8]. | ✅ |
-| 🎭 **Scroll Animations** | Integrasi `reveal.js` untuk transisi elemen yang dinamis saat di-scroll[cite: 5, 6, 7, 8]. | ✅ |
+## 🚀 Quick Start
 
----
+To view this project locally and explore the code structure:
 
-## 🛠️ Instalasi
-
-Pastikan Anda memiliki lingkungan lokal untuk menjalankan file HTML.
-
-
-# 1. Clone repositori
-```bash
-git clone [https://github.com/username/gallery-mockers.git](https://github.com/username/gallery-mockers.git)
-```
-
-# 2. Masuk ke direktori
-```bash
-cd gallery-mockers
-```
-
-# 3. Buka index.html di browser Anda
-Pro-tip: Gunakan ekstensi "Live Server" di VS Code untuk pengalaman pengembangan yang lebih efisien.
-
-📁 Struktur Proyek
-Struktur direktori dirancang agar modular dan mudah dipahami:
-
-```Plaintext
-gallery-mockers/
-├── assets/
-│   ├── icongallerymockers.png   # Logo utama[cite: 5, 6, 7, 8]
-│   └── (images...)
-├── css/
-│   ├── bootstrap.min.css       # Framework Bootstrap 5[cite: 5]
-│   └── style.css               # Custom styling[cite: 5]
-├── js/
-│   ├── bootstrap.bundle.min.js # Bootstrap JS[cite: 5]
-│   ├── reveal.js               # Library animasi scroll[cite: 5]
-│   └── main.js                 # Logika interaksi utama[cite: 5]
-├── index.html                  # Halaman Home[cite: 5]
-├── gallery.html                # Halaman Koleksi[cite: 6]
-├── history.html                # Halaman Sejarah[cite: 7]
-└── vm.html                     # Halaman Visi & Misi[cite: 8]
-```
-⚠️ Disclaimer
-Proyek Gallery Mockers ini murni dibuat untuk tujuan edukasi dan portofolio pembelajaran. Semua karya seni, teks, dan data di dalam situs ini bersifat satir dan fiktif. Tidak ada hubungan dengan entitas seni nyata. Dilarang keras memperjualbelikan kode atau konten di dalam repositori ini tanpa izin.
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/feast-n/Gallery-Mockers.github.io.git](https://github.com/feast-n/Gallery-Mockers.github.io.git)

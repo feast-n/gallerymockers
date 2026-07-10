@@ -52,3 +52,17 @@ document.addEventListener('DOMContentLoaded', () => {
         counterObserver.observe(el);
     });
 });
+
+const myBtn = document.getElementById("myBtn");
+
+window.addEventListener("scroll", () => {
+    if (window.scrollY > 100) {
+        myBtn.classList.add("show");
+    } else {
+        myBtn.classList.remove("show");
+    }
+});
+
+myBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});

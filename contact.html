@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us - Gallery Mockers</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/x-icon" href="assets/icongallerymockers.png">
+  <script src="https://kit.fontawesome.com/2e8c644617.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="assets/icongallerymockers.png" alt="Gallery Mockers Logo" width="50" height="50" class="d-inline-block align-text-top">
+            </a>
+            <a class="navbar-brand text-left fw-bold" href="index.html">Gallery Mockers</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">About Us</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="vm.html">Vision & Mission</a></li>
+                            <li><a class="dropdown-item" href="history.html">History</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="news.html">News</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+  <main class="container py-5 min-vh-100">
+    <div class="row mb-5 text-center reveal">
+        <div class="col-12">
+            <h1 class="fw-bold display-4">Get In Touch</h1>
+            <p class="lead text-muted">Have a question, feedback, or a cease-and-desist letter from a traditional art critic? We'd love to hear from you.</p>
+        </div>
+    </div>
+
+    <div class="row g-5">
+      <!-- Contact Information -->
+      <div class="col-lg-5 col-md-12 reveal">
+        <div class="p-5 border rounded shadow-sm bg-white h-100">
+            <h3 class="fw-bold mb-4">Contact Information</h3>
+            <p class="text-muted mb-4">Feel free to reach out to our permanent studio hub. We are always looking for new artists, gallery opportunities, and collaborations.</p>
+            <ul class="list-unstyled mb-5 fs-5">
+                <li class="mb-4 d-flex align-items-center"><i class="fa-solid fa-location-dot fa-fw me-3 fs-4 text-dark"></i> Jakarta, Indonesia</li>
+                <li class="mb-4 d-flex align-items-center"><i class="fa-solid fa-phone fa-fw me-3 fs-4 text-dark"></i> +62 21 5555 1234</li>
+                <li class="mb-4 d-flex align-items-center"><i class="fa-solid fa-envelope fa-fw me-3 fs-4 text-dark"></i> hello@gallerymockers.com</li>
+            </ul>
+            <h5 class="fw-bold mb-3">Connect With Us</h5>
+            <div class="d-flex gap-3">
+                <a href="#" class="text-dark fs-3 transition-all"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="text-dark fs-3 transition-all"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#" class="text-dark fs-3 transition-all"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="col-lg-7 col-md-12 reveal">
+        <form class="p-5 border rounded shadow-sm bg-white h-100">
+            <h3 class="fw-bold mb-4">Send us a Message</h3>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="firstName" class="form-label fw-bold">First Name</label>
+                    <input type="text" class="form-control bg-light border-0 py-2" id="firstName" placeholder="John" required>
+                </div>
+                <div class="col-md-6 mt-3 mt-md-0">
+                    <label for="lastName" class="form-label fw-bold">Last Name</label>
+                    <input type="text" class="form-control bg-light border-0 py-2" id="lastName" placeholder="Doe" required>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label fw-bold">Email Address</label>
+                <input type="email" class="form-control bg-light border-0 py-2" id="email" placeholder="name@example.com" required>
+            </div>
+            <div class="mb-3">
+                <label for="subject" class="form-label fw-bold">Subject</label>
+                <input type="text" class="form-control bg-light border-0 py-2" id="subject" placeholder="What is this regarding?" required>
+            </div>
+            <div class="mb-4">
+                <label for="message" class="form-label fw-bold">Message</label>
+                <textarea class="form-control bg-light border-0 py-2" id="message" rows="5" placeholder="Write your thoughts here..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-dark w-100 py-3 fw-bold transition-all">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+    <div>
+        <button id="myBtn" aria-label="Scroll to top">↑</button>
+    </div>
+
+  <footer class="py-5 mt-auto border-top border-secondary" style="background-color: #000000; color: #ffffff;">
+    <div class="container text-decoration-none">
+        <div class="row justify-content-between gy-5">
+            <div class="col-lg-6 col-md-12">
+                <div class="row row-cols-1 row-cols-sm-2 gy-4">
+                    <div class="col">
+                        <h6 class="fw-bold mb-3 text-white" style="letter-spacing: 0.5px;">Explore</h6>
+                        <ul class="list-unstyled mb-0 d-flex flex-column gap-2">
+                            <li><a href="index.html" class="text-white-50 text-decoration-none transition-all">Home</a></li>
+                            <li><a href="gallery.html" class="text-white-50 text-decoration-none transition-all">Gallery</a></li>
+                            <li><a href="history.html" class="text-white-50 text-decoration-none transition-all">History</a></li>
+                            <li><a href="contact.html" class="text-white-50 text-decoration-none transition-all">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <h6 class="fw-bold mb-3 text-white" style="letter-spacing: 0.5px;">Contact Info</h6>
+                        <address class="list-unstyled mb-0 d-flex flex-column gap-2 text-white-50 text-decoration-none fst-normal" style="font-size: 0.95rem;">
+                            <span><i class="fa-solid fa-location-dot me-2"></i> Jakarta, Indonesia</span>
+                            <span><i class="fa-solid fa-phone me-2"></i> <a href="tel:+622155551234" class="text-white-50 text-decoration-none transition-all">+62 21 5555 1234</a></span>
+                            <span><i class="fa-solid fa-envelope me-2"></i> <a href="mailto:hello@gallerymockers.com" class="text-white-50 text-decoration-none transition-all">hello@gallerymockers.com</a></span>
+                        </address>
+                        <div class="d-flex align-items-center gap-3 mt-3">
+                            <a href="https://facebook.com" aria-label="Visit Facebook" class="text-white fs-5 transition-all"><i class="fa-brands fa-facebook"></i></a>
+                            <a href="https://linkedin.com" aria-label="Visit LinkedIn" class="text-white fs-5 transition-all"><i class="fa-brands fa-linkedin"></i></a>
+                            <a href="https://instagram.com" aria-label="Visit Instagram" class="text-white fs-5 transition-all"><i class="fa-brands fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 d-flex flex-column gap-4">
+                <div>
+                    <h6 class="fw-bold mb-3 text-white" style="letter-spacing: 0.5px;">Follow us</h6>
+                    <div class="d-flex align-items-center gap-3">
+                        <a href="https://facebook.com" aria-label="Visit our Facebook page" class="text-white fs-5 transition-all"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="https://linkedin.com" aria-label="Visit our LinkedIn page" class="text-white fs-5 transition-all"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="https://instagram.com" aria-label="Visit our Instagram page" class="text-white fs-5 transition-all"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h6 class="fw-bold mb-3 text-white" style="letter-spacing: 0.5px;">Want to join us?</h6>
+                    <form id="joinForm" class="d-flex gap-2" novalidate>
+                        <input type="email" name="email" aria-label="Email address for newsletter" class="form-control flex-grow-1 rounded-pill px-4 py-2 border-0" placeholder="your@email.com" required style="max-width: 250px;">
+                        <button type="submit" aria-label="Subscribe to newsletter" class="btn btn-outline-light rounded-pill px-4 py-2 fw-medium transition-all">Join</button>
+                    </form>
+                    <div id="joinMsg" class="mt-2 text-success small" style="display: none;" aria-live="polite"></div>
+                </div>
+            </div>
+        </div>
+            <div class="col-12">
+                <p class="mb-0">&copy; <time id="dynamicYear"></time> Gallery Mockers. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const yearElement = document.getElementById("dynamicYear");
+            if(yearElement) {
+                yearElement.textContent = new Date().getFullYear();
+                yearElement.setAttribute("datetime", new Date().getFullYear());
+            }
+        });
+    </script>
+</footer>
+
+  <script src="js/bootstrap.bundle.min.js"></script><script src="js/reveal.js"></script><script src="js/main.js"></script>
+</body>
+</html>

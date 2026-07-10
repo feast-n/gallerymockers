@@ -140,7 +140,7 @@
     transition: transform 0.35s ease;
 }
 
-#scrollTopBtn {
+#myBtn {
     position: fixed;
     bottom: 24px;
     right: 24px;
@@ -148,19 +148,19 @@
     height: 46px;
     border-radius: 50%;
     border: none;
-    background: #121212;
-    color: #D4FF00;
+    background: #ffffff;
+    color: #000000;
     font-size: 20px;
     cursor: pointer;
     z-index: 1050;
     opacity: 0;
-    visibility: hidden;
+    visibility: visible;
     transform: translateY(10px);
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
     pointer-events: none;
 }
 
-#scrollTopBtn.show {
+#myBtn.show {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
