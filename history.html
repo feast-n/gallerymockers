@@ -21,7 +21,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="index.html">Home</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">About Us</a>
                         <ul class="dropdown-menu">
@@ -42,6 +42,22 @@
       <div class="col-lg-8 text-center mb-5">
         <h1 class="fw-bold display-4">Our History</h1>
         <p class="lead text-muted">The journey of bringing humor back into the rigid world of fine art.</p>
+      </div>
+    </div>
+    <!-- Add this between the header and the history cards -->
+<div class="row justify-content-center mb-5 reveal">
+      <div class="col-lg-8 text-center">
+        <!-- Changed to a standard flex container with gap-2 -->
+        <div class="d-flex flex-wrap justify-content-center gap-2" role="group" aria-label="Year filter" id="yearFilterGroup">
+          <button type="button" class="btn btn-outline-dark rounded active" data-filter="all">All</button>
+          <button type="button" class="btn btn-outline-dark rounded" data-filter="2020">2020</button>
+          <button type="button" class="btn btn-outline-dark rounded" data-filter="2021">2021</button>
+          <button type="button" class="btn btn-outline-dark rounded" data-filter="2022">2022</button>
+          <button type="button" class="btn btn-outline-dark rounded" data-filter="2023">2023</button>
+          <button type="button" class="btn btn-outline-dark rounded" data-filter="2024">2024</button>
+          <button type="button" class="btn btn-outline-dark rounded" data-filter="2025">2025</button>
+          <button type="button" class="btn btn-outline-dark rounded" data-filter="2026">2026</button>
+        </div>
       </div>
     </div>
     
@@ -104,6 +120,13 @@
         
       </div>
     </div>
+    <div class="row justify-content-center reveal mt-5">
+  <div class="col-auto text-center">
+    <a href="gallery.html" class="spike-button text-decoration-none" aria-label="Explore the Gallery">
+      <span class="spike-text">Enter The Gallery</span>
+    </a>
+  </div>
+</div>
   </main>
 
     <div>
@@ -120,8 +143,8 @@
                         <ul class="list-unstyled mb-0 d-flex flex-column gap-2">
                             <li><a href="index.html" class="text-white-50 text-decoration-none transition-all">Home</a></li>
                             <li><a href="gallery.html" class="text-white-50 text-decoration-none transition-all">Gallery</a></li>
-                            <li><a href="history.html" class="text-white-50 text-decoration-none transition-all">History</a></li>
-                            <li><a href="vm.html" class="text-white text decoration-none transition-all">Vision & Mission</a></li>
+                            <li><a href="history.html" class="text-white text-decoration-none transition-all">History</a></li>
+                            <li><a href="vm.html" class="text-white-50 text-decoration-none transition-all">Vision & Mission</a></li>
                             <li><a href="contact.html" class="text-white-50 text-decoration-none transition-all">Contact Us</a></li>
                         </ul>
                     </div>
@@ -132,11 +155,6 @@
                             <span><i class="fa-solid fa-phone me-2"></i> <a href="tel:+622155551234" class="text-white-50 text-decoration-none transition-all">+62 21 5555 1234</a></span>
                             <span><i class="fa-solid fa-envelope me-2"></i> <a href="mailto:hello@gallerymockers.com" class="text-white-50 text-decoration-none transition-all">hello@gallerymockers.com</a></span>
                         </address>
-                        <div class="d-flex align-items-center gap-3 mt-3">
-                            <a href="https://facebook.com" aria-label="Visit Facebook" class="text-white fs-5 transition-all"><i class="fa-brands fa-facebook"></i></a>
-                            <a href="https://linkedin.com" aria-label="Visit LinkedIn" class="text-white fs-5 transition-all"><i class="fa-brands fa-linkedin"></i></a>
-                            <a href="https://instagram.com" aria-label="Visit Instagram" class="text-white fs-5 transition-all"><i class="fa-brands fa-instagram"></i></a>
-                        </div>
                     </div>
                 </div>
             </div>

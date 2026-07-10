@@ -66,3 +66,60 @@ window.addEventListener("scroll", () => {
 myBtn.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
 });
+// --- History Year Filter Logic ---
+document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('#yearFilterGroup .btn');
+    const historyCards = document.querySelectorAll('.card'); // Targets the history timeline cards
+
+    if (filterButtons.length > 0 && historyCards.length > 0) {
+        
+        // 1. Auto-tag each card with a data-year based on its h4 title
+        historyCards.forEach(card => {
+            const titleElement = card.querySelector('h4');
+            if (titleElement) {
+                const titleText = titleElement.textContent;
+                // Looks for any 4-digit year starting with 202
+                const yearMatch = titleText.match(/\b(202\d)\b/); 
+                
+                if (yearMatch) {
+                    card.setAttribute('data-year', yearMatch[0]);
+                } else if (titleText.includes('Today')) {
+                    // Maps the "Today: A Global Platform" card to 2026
+                    card.setAttribute('data-year', '2026'); 
+                }
+            }
+        });
+
+        // 2. Handle button clicks for filtering
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active styling from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active styling to the clicked button
+                button.classList.add('active');
+
+                const selectedYear = button.getAttribute('data-filter');
+
+                // 3. Filter the cards with a smooth animation
+                historyCards.forEach(card => {
+                    const cardYear = card.getAttribute('data-year');
+                    
+                    if (selectedYear === 'all' || cardYear === selectedYear) {
+                        card.style.display = 'block';
+                        // Uses Web Animations API for a bug-free, immersive fade
+                        card.animate([
+                            { opacity: 0, transform: 'translateY(10px)' }, 
+                            { opacity: 1, transform: 'translateY(0)' }
+                        ], { 
+                            duration: 400, 
+                            easing: 'ease-out', 
+                            fill: 'forwards' 
+                        });
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+});
