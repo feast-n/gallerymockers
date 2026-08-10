@@ -1,19 +1,35 @@
 <?php
 require_once 'includes/config.php';
+
+/** @var mysqli $conn */
+
 $page_title  = "Contact Us - Gallery Mockers";
 $active_page = "contact";
 
 $success_message = false;
+$error_message   = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
-    $last_name  = mysqli_real_escape_string($conn, $_POST['last_name']);
-    $email      = mysqli_real_escape_string($conn, $_POST['email']);
-    $subject    = mysqli_real_escape_string($conn, $_POST['subject']);
-    $message    = mysqli_real_escape_string($conn, $_POST['message']);
+    $first_name = trim($_POST['first_name']);
+    $last_name  = trim($_POST['last_name']);
+    $email      = trim($_POST['email']);
+    $subject    = trim($_POST['subject']);
+    $message    = trim($_POST['message']);
 
-    // Logika simpan data ke database dapat ditambahkan di sini
-    $success_message = true;
+    if (!empty($first_name) && !empty($email) && !empty($subject) && !empty($message)) {
+        // Logika simpan data ke database
+        $stmt = mysqli_prepare($conn, "INSERT INTO messages (first_name, last_name, email, subject, message) VALUES (?, ?, ?, ?, ?)");
+        mysqli_stmt_bind_param($stmt, "sssss", $first_name, $last_name, $email, $subject, $message);
+
+        if (mysqli_stmt_execute($stmt)) {
+            $success_message = true;
+        } else {
+            $error_message = "Gagal mengirim pesan. Silakan coba lagi.";
+        }
+        mysqli_stmt_close($stmt);
+    } else {
+        $error_message = "Harap isi semua kolom yang diwajibkan.";
+    }
 }
 
 include 'includes/header.php';
@@ -52,7 +68,13 @@ include 'includes/header.php';
             
             <?php if ($success_message): ?>
                 <div class="alert alert-success border-0 shadow-sm mb-4">
-                    Pesan Anda berhasil dikirim! Kami akan segera menghubungi Anda kembali.
+                    <i class="fa-solid fa-circle-check me-2"></i>Pesan Anda berhasil dikirim dan tersimpan! Kami akan segera menghubungi Anda kembali.
+                </div>
+            <?php endif; ?>
+
+            <?php if ($error_message): ?>
+                <div class="alert alert-danger border-0 shadow-sm mb-4">
+                    <i class="fa-solid fa-circle-exclamation me-2"></i><?= htmlspecialchars($error_message); ?>
                 </div>
             <?php endif; ?>
 
