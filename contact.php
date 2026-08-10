@@ -68,7 +68,7 @@ include 'includes/header.php';
             
             <?php if ($success_message): ?>
                 <div class="alert alert-success border-0 shadow-sm mb-4">
-                    <i class="fa-solid fa-circle-check me-2"></i>Pesan Anda berhasil dikirim dan tersimpan! Kami akan segera menghubungi Anda kembali.
+                    <i class="fa-solid fa-circle-check me-2"></i>Pesan Anda berhasil dikirim dan tersimpan! Kami akan segera menghubungi Anda kembali melalui email.
                 </div>
             <?php endif; ?>
 
