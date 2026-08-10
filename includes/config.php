@@ -4,6 +4,7 @@ $user     = "root";
 $password = "";
 $database = "gallery_mockers";
 
+/** @var mysqli $conn */
 $conn = mysqli_connect($host, $user, $password, $database);
 
 if (!$conn) {

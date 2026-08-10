@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 if (!isset($page_title)) $page_title = "Gallery Mockers";
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
@@ -45,6 +48,17 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <a class="nav-link <?php echo ($current_page == 'contact.php') ? 'active' : ''; ?>" href="contact.php">Contact Us</a>
                 </li>
             </ul>
+            <div class="d-flex gap-2">
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <?php if (isset($_SESSION['role_name']) && $_SESSION['role_name'] === 'Admin'): ?>
+                        <a href="dashboard.php" class="btn btn-outline-dark btn-sm">Admin Dashboard</a>
+                    <?php endif; ?>
+                    <a href="logout.php" class="btn btn-danger btn-sm">Logout (<?= htmlspecialchars($_SESSION['username']); ?>)</a>
+                <?php else: ?>
+                    <a href="login.php" class="btn btn-outline-dark btn-sm">Login</a>
+                    <a href="register.php" class="btn btn-dark btn-sm">Register</a>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </nav>
