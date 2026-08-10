@@ -315,3 +315,135 @@
     height: 42px !important;
     width: 42px !important;
 }
+
+/* ==========================================================================
+   6. Admin Dashboard & Button Upgrades
+   ========================================================================== */
+
+/* Enhanced Custom Buttons */
+.btn-custom-dark {
+    background-color: #000000;
+    color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 30px;
+    padding: 0.5rem 1.25rem;
+    font-weight: 500;
+    transition: all 0.25s ease-in-out;
+}
+
+.btn-custom-dark:hover {
+    background-color: #222222;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-custom-outline-dark {
+    background-color: transparent;
+    color: #000000;
+    border: 1.5px solid #000000;
+    border-radius: 30px;
+    padding: 0.5rem 1.25rem;
+    font-weight: 500;
+    transition: all 0.25s ease-in-out;
+}
+
+.btn-custom-outline-dark:hover {
+    background-color: #000000;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-custom-danger {
+    background-color: #dc3545;
+    color: #ffffff;
+    border: none;
+    border-radius: 30px;
+    padding: 0.4rem 1.1rem;
+    font-weight: 500;
+    transition: all 0.25s ease-in-out;
+}
+
+.btn-custom-danger:hover {
+    background-color: #bb2d3b;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+/* Dashboard Cards & Containers */
+.dashboard-card {
+    border: none;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dashboard-stat-card {
+    border: 1px solid #f0f0f0;
+    border-radius: 14px;
+    background: #ffffff;
+    padding: 1.25rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+/* Custom Admin Tabs */
+.custom-admin-tabs {
+    border-bottom: 2px solid #e9ecef;
+}
+
+.custom-admin-tabs .nav-link {
+    color: #6c757d;
+    font-size: 1rem;
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.25s ease;
+}
+
+.custom-admin-tabs .nav-link:hover {
+    color: #000000;
+    border-color: transparent;
+}
+
+.custom-admin-tabs .nav-link.active {
+    color: #000000 !important;
+    background: transparent;
+    border-bottom: 3px solid #000000 !important;
+}
+
+/* Custom Table Styling */
+.custom-admin-table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.custom-admin-table thead th {
+    background-color: #000000;
+    color: #ffffff;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.8px;
+    padding: 1rem;
+}
+
+.custom-admin-table thead th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.custom-admin-table thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.custom-admin-table tbody td {
+    padding: 0.9rem 1rem;
+    vertical-align: middle;
+}
+
+.custom-admin-table tbody tr:hover {
+    background-color: #fcfcfc;
+}
