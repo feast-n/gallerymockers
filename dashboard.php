@@ -12,29 +12,112 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role_name'] !== 'Admin') {
 }
 
 $msg = '';
+$msg_type = 'success';
+
+// Ensure upload directory exists
+$upload_dir = 'assets/';
+if (!is_dir($upload_dir)) {
+    mkdir($upload_dir, 0755, true);
+}
 
 // --- 1. PRODUCT CONTROLLER ---
+
+// Add Product
 if (isset($_POST['add_product'])) {
     $name = trim($_POST['name']);
     $price = $_POST['price'];
-    $img = trim($_POST['img']);
     $description = trim($_POST['description']);
+    $imgPath = trim($_POST['img_path']);
 
-    $stmt = mysqli_prepare($conn, "INSERT INTO products (name, price, img, description) VALUES (?, ?, ?, ?)");
-    mysqli_stmt_bind_param($stmt, "sdss", $name, $price, $img, $description);
-    if (mysqli_stmt_execute($stmt)) $msg = "Product added successfully!";
+    if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+        $fileName = time() . '_' . basename($_FILES['image_file']['name']);
+        $targetFile = $upload_dir . $fileName;
+        if (move_uploaded_file($_FILES['image_file']['tmp_name'], $targetFile)) {
+            $imgPath = $targetFile;
+        }
+    }
+
+    if (!empty($name) && !empty($imgPath)) {
+        $stmt = mysqli_prepare($conn, "INSERT INTO products (name, price, img, description) VALUES (?, ?, ?, ?)");
+        mysqli_stmt_bind_param($stmt, "sdss", $name, $price, $imgPath, $description);
+        if (mysqli_stmt_execute($stmt)) {
+            $msg = "Product added successfully!";
+        } else {
+            $msg = "Error adding product.";
+            $msg_type = 'danger';
+        }
+        mysqli_stmt_close($stmt);
+    }
+}
+
+// Edit Full Product
+if (isset($_POST['update_product'])) {
+    $id = intval($_POST['id']);
+    $name = trim($_POST['name']);
+    $price = $_POST['price'];
+    $description = trim($_POST['description']);
+    $imgPath = trim($_POST['old_img']);
+
+    if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+        $fileName = time() . '_' . basename($_FILES['image_file']['name']);
+        $targetFile = $upload_dir . $fileName;
+        if (move_uploaded_file($_FILES['image_file']['tmp_name'], $targetFile)) {
+            $imgPath = $targetFile;
+        }
+    } elseif (!empty($_POST['img_path'])) {
+        $imgPath = trim($_POST['img_path']);
+    }
+
+    $stmt = mysqli_prepare($conn, "UPDATE products SET name = ?, price = ?, img = ?, description = ? WHERE id = ?");
+    mysqli_stmt_bind_param($stmt, "sdssi", $name, $price, $imgPath, $description, $id);
+    if (mysqli_stmt_execute($stmt)) {
+        $msg = "Product updated successfully!";
+    } else {
+        $msg = "Error updating product.";
+        $msg_type = 'danger';
+    }
     mysqli_stmt_close($stmt);
 }
 
+// Dedicated Controller: Quick Update Image Only
+if (isset($_POST['update_image_only'])) {
+    $id = intval($_POST['id']);
+    $imgPath = trim($_POST['old_img']);
+
+    if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+        $fileName = time() . '_' . basename($_FILES['image_file']['name']);
+        $targetFile = $upload_dir . $fileName;
+        if (move_uploaded_file($_FILES['image_file']['tmp_name'], $targetFile)) {
+            $imgPath = $targetFile;
+        }
+    } elseif (!empty($_POST['img_path'])) {
+        $imgPath = trim($_POST['img_path']);
+    }
+
+    $stmt = mysqli_prepare($conn, "UPDATE products SET img = ? WHERE id = ?");
+    mysqli_stmt_bind_param($stmt, "si", $imgPath, $id);
+    if (mysqli_stmt_execute($stmt)) {
+        $msg = "Product image updated successfully!";
+    } else {
+        $msg = "Error updating image.";
+        $msg_type = 'danger';
+    }
+    mysqli_stmt_close($stmt);
+}
+
+// Delete Product
 if (isset($_GET['delete_product'])) {
     $id = intval($_GET['delete_product']);
     $stmt = mysqli_prepare($conn, "DELETE FROM products WHERE id = ?");
     mysqli_stmt_bind_param($stmt, "i", $id);
-    if (mysqli_stmt_execute($stmt)) $msg = "Product deleted successfully!";
+    if (mysqli_stmt_execute($stmt)) {
+        $msg = "Product deleted successfully!";
+    }
     mysqli_stmt_close($stmt);
 }
 
 // --- 2. HISTORY CONTROLLER ---
+
 if (isset($_POST['add_history'])) {
     $year = trim($_POST['year']);
     $title = trim($_POST['title']);
@@ -42,7 +125,26 @@ if (isset($_POST['add_history'])) {
 
     $stmt = mysqli_prepare($conn, "INSERT INTO history (year, title, description) VALUES (?, ?, ?)");
     mysqli_stmt_bind_param($stmt, "sss", $year, $title, $description);
-    if (mysqli_stmt_execute($stmt)) $msg = "History event added successfully!";
+    if (mysqli_stmt_execute($stmt)) {
+        $msg = "History event added successfully!";
+    }
+    mysqli_stmt_close($stmt);
+}
+
+if (isset($_POST['update_history'])) {
+    $id = intval($_POST['id']);
+    $year = trim($_POST['year']);
+    $title = trim($_POST['title']);
+    $description = trim($_POST['description']);
+
+    $stmt = mysqli_prepare($conn, "UPDATE history SET year = ?, title = ?, description = ? WHERE id = ?");
+    mysqli_stmt_bind_param($stmt, "sssi", $year, $title, $description, $id);
+    if (mysqli_stmt_execute($stmt)) {
+        $msg = "History event updated successfully!";
+    } else {
+        $msg = "Error updating history event.";
+        $msg_type = 'danger';
+    }
     mysqli_stmt_close($stmt);
 }
 
@@ -50,7 +152,9 @@ if (isset($_GET['delete_history'])) {
     $id = intval($_GET['delete_history']);
     $stmt = mysqli_prepare($conn, "DELETE FROM history WHERE id = ?");
     mysqli_stmt_bind_param($stmt, "i", $id);
-    if (mysqli_stmt_execute($stmt)) $msg = "History event deleted successfully!";
+    if (mysqli_stmt_execute($stmt)) {
+        $msg = "History event deleted successfully!";
+    }
     mysqli_stmt_close($stmt);
 }
 
@@ -108,7 +212,7 @@ include 'includes/header.php';
     </div>
 
     <?php if ($msg): ?>
-        <div class="alert alert-success alert-dismissible fade show rounded-3 shadow-sm mb-4" role="alert">
+        <div class="alert alert-<?= $msg_type; ?> alert-dismissible fade show rounded-3 shadow-sm mb-4" role="alert">
             <i class="fa-solid fa-circle-check me-2"></i> <?= htmlspecialchars($msg); ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
@@ -133,7 +237,7 @@ include 'includes/header.php';
         <div class="tab-pane fade show active" id="products" role="tabpanel">
             <div class="card dashboard-card p-4 mb-4">
                 <h5 class="fw-bold mb-3"><i class="fa-solid fa-plus-circle me-2"></i>Add New Product</h5>
-                <form method="POST" action="">
+                <form method="POST" action="" enctype="multipart/form-data">
                     <div class="row g-3">
                         <div class="col-md-4">
                             <label class="form-label small fw-semibold">Product Name</label>
@@ -144,8 +248,10 @@ include 'includes/header.php';
                             <input type="number" step="0.01" name="price" class="form-control" placeholder="120.00" required>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label small fw-semibold">Image Asset Path</label>
-                            <input type="text" name="img" class="form-control" placeholder="assets/2.jpg" required>
+                            <label class="form-label small fw-semibold">Upload Image File</label>
+                            <input type="file" name="image_file" class="form-control" accept="image/*">
+                            <span class="text-muted x-small d-block mt-1">Or specify path below:</span>
+                            <input type="text" name="img_path" class="form-control mt-1" placeholder="assets/2.jpg">
                         </div>
                         <div class="col-12">
                             <label class="form-label small fw-semibold">Description</label>
@@ -165,7 +271,7 @@ include 'includes/header.php';
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Preview</th>
+                                <th>Image</th>
                                 <th>Name</th>
                                 <th>Price</th>
                                 <th>Description</th>
@@ -173,14 +279,32 @@ include 'includes/header.php';
                             </tr>
                         </thead>
                         <tbody>
-                            <?php while ($row = mysqli_fetch_assoc($products)): ?>
+                            <?php 
+                            $products_array = [];
+                            while ($row = mysqli_fetch_assoc($products)): 
+                                $products_array[] = $row;
+                            ?>
                                 <tr>
                                     <td class="fw-bold"><?= $row['id']; ?></td>
-                                    <td><img src="<?= htmlspecialchars($row['img']); ?>" width="48" height="48" class="rounded-3 object-fit-cover border"></td>
+                                    <td>
+                                        <div class="position-relative d-inline-block">
+                                            <img src="<?= htmlspecialchars($row['img']); ?>" width="54" height="54" class="rounded-3 object-fit-cover border">
+                                            <button class="btn btn-dark btn-sm rounded-circle position-absolute bottom-0 end-0 p-1 lh-1" 
+                                                    style="transform: translate(20%, 20%);"
+                                                    title="Edit Image" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#editImageModal<?= $row['id']; ?>">
+                                                <i class="fa-solid fa-camera fs-7"></i>
+                                            </button>
+                                        </div>
+                                    </td>
                                     <td class="fw-semibold"><?= htmlspecialchars($row['name']); ?></td>
                                     <td class="text-success fw-bold">$<?= number_format($row['price'], 2); ?></td>
-                                    <td class="text-muted small" style="max-width: 300px;"><?= htmlspecialchars($row['description']); ?></td>
+                                    <td class="text-muted small" style="max-width: 250px;"><?= htmlspecialchars($row['description']); ?></td>
                                     <td>
+                                        <button class="btn btn-custom-outline-dark btn-sm me-1" data-bs-toggle="modal" data-bs-target="#editProductModal<?= $row['id']; ?>">
+                                            <i class="fa-solid fa-pen-to-square me-1"></i> Edit Details
+                                        </button>
                                         <a href="dashboard.php?delete_product=<?= $row['id']; ?>" class="btn btn-custom-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?')">
                                             <i class="fa-solid fa-trash-can me-1"></i> Delete
                                         </a>
@@ -232,13 +356,20 @@ include 'includes/header.php';
                             </tr>
                         </thead>
                         <tbody>
-                            <?php while ($row = mysqli_fetch_assoc($history)): ?>
+                            <?php 
+                            $history_array = [];
+                            while ($row = mysqli_fetch_assoc($history)): 
+                                $history_array[] = $row;
+                            ?>
                                 <tr>
                                     <td class="fw-bold"><?= $row['id']; ?></td>
                                     <td><span class="badge bg-dark rounded-pill px-3 py-2"><?= htmlspecialchars($row['year']); ?></span></td>
                                     <td class="fw-semibold"><?= htmlspecialchars($row['title']); ?></td>
-                                    <td class="text-muted small" style="max-width: 350px;"><?= htmlspecialchars($row['description']); ?></td>
+                                    <td class="text-muted small" style="max-width: 300px;"><?= htmlspecialchars($row['description']); ?></td>
                                     <td>
+                                        <button class="btn btn-custom-outline-dark btn-sm me-1" data-bs-toggle="modal" data-bs-target="#editHistoryModal<?= $row['id']; ?>">
+                                            <i class="fa-solid fa-pen-to-square me-1"></i> Edit
+                                        </button>
                                         <a href="dashboard.php?delete_history=<?= $row['id']; ?>" class="btn btn-custom-danger btn-sm" onclick="return confirm('Are you sure you want to delete this event?')">
                                             <i class="fa-solid fa-trash-can me-1"></i> Delete
                                         </a>
@@ -252,5 +383,131 @@ include 'includes/header.php';
         </div>
     </div>
 </div>
+
+<!-- ================= MODALS ================= -->
+
+<!-- 1. IMAGE-ONLY EDIT MODALS -->
+<?php foreach ($products_array as $item): ?>
+<div class="modal fade" id="editImageModal<?= $item['id']; ?>" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title fw-bold"><i class="fa-solid fa-image me-2"></i>Update Image - <?= htmlspecialchars($item['name']); ?></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="" enctype="multipart/form-data">
+                <div class="modal-body p-4 text-center">
+                    <input type="hidden" name="id" value="<?= $item['id']; ?>">
+                    <input type="hidden" name="old_img" value="<?= htmlspecialchars($item['img']); ?>">
+
+                    <div class="mb-3">
+                        <label class="form-label d-block text-start small fw-semibold">Current Image Preview</label>
+                        <img src="<?= htmlspecialchars($item['img']); ?>" class="img-thumbnail rounded shadow-sm" style="max-height: 200px; object-fit: contain;">
+                    </div>
+
+                    <div class="text-start mb-3">
+                        <label class="form-label small fw-semibold">Upload New Image File</label>
+                        <input type="file" name="image_file" class="form-control" accept="image/*">
+                    </div>
+
+                    <div class="text-start">
+                        <label class="form-label small fw-semibold">Or Update Asset Path</label>
+                        <input type="text" name="img_path" class="form-control" value="<?= htmlspecialchars($item['img']); ?>">
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary btn-sm rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" name="update_image_only" class="btn btn-custom-dark btn-sm rounded-pill px-4">Update Image</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<?php endforeach; ?>
+
+<!-- 2. FULL PRODUCT EDIT MODALS -->
+<?php foreach ($products_array as $item): ?>
+<div class="modal fade" id="editProductModal<?= $item['id']; ?>" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title fw-bold"><i class="fa-solid fa-pen-to-square me-2"></i>Edit Product #<?= $item['id']; ?></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="" enctype="multipart/form-data">
+                <div class="modal-body p-4">
+                    <input type="hidden" name="id" value="<?= $item['id']; ?>">
+                    <input type="hidden" name="old_img" value="<?= htmlspecialchars($item['img']); ?>">
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Product Name</label>
+                            <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($item['name']); ?>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Price ($)</label>
+                            <input type="number" step="0.01" name="price" class="form-control" value="<?= $item['price']; ?>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Replace Image File</label>
+                            <input type="file" name="image_file" class="form-control" accept="image/*">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Image Path</label>
+                            <input type="text" name="img_path" class="form-control" value="<?= htmlspecialchars($item['img']); ?>">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">Description</label>
+                            <textarea name="description" class="form-control" rows="3" required><?= htmlspecialchars($item['description']); ?></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary btn-sm rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" name="update_product" class="btn btn-custom-dark btn-sm rounded-pill px-4">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<?php endforeach; ?>
+
+<!-- 3. HISTORY EDIT MODALS -->
+<?php foreach ($history_array as $event): ?>
+<div class="modal fade" id="editHistoryModal<?= $event['id']; ?>" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title fw-bold"><i class="fa-solid fa-pen-to-square me-2"></i>Edit History Event #<?= $event['id']; ?></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="">
+                <div class="modal-body p-4">
+                    <input type="hidden" name="id" value="<?= $event['id']; ?>">
+                    
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label small fw-semibold">Year</label>
+                            <input type="text" name="year" class="form-control" value="<?= htmlspecialchars($event['year']); ?>" required>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label small fw-semibold">Event Title</label>
+                            <input type="text" name="title" class="form-control" value="<?= htmlspecialchars($event['title']); ?>" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">Description</label>
+                            <textarea name="description" class="form-control" rows="3" required><?= htmlspecialchars($event['description']); ?></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary btn-sm rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" name="update_history" class="btn btn-custom-dark btn-sm rounded-pill px-4">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<?php endforeach; ?>
 
 <?php include 'includes/footer.php'; ?>
