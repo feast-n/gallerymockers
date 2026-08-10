@@ -158,12 +158,26 @@ if (isset($_GET['delete_history'])) {
     mysqli_stmt_close($stmt);
 }
 
+// --- 3. MESSAGES CONTROLLER ---
+
+if (isset($_GET['delete_message'])) {
+    $id = intval($_GET['delete_message']);
+    $stmt = mysqli_prepare($conn, "DELETE FROM messages WHERE id = ?");
+    mysqli_stmt_bind_param($stmt, "i", $id);
+    if (mysqli_stmt_execute($stmt)) {
+        $msg = "Message deleted successfully!";
+    }
+    mysqli_stmt_close($stmt);
+}
+
 // Fetch Records
 $products = mysqli_query($conn, "SELECT * FROM products ORDER BY id DESC");
 $history  = mysqli_query($conn, "SELECT * FROM history ORDER BY id DESC");
+$messages = mysqli_query($conn, "SELECT * FROM messages ORDER BY id DESC");
 
 $total_products = mysqli_num_rows($products);
 $total_history  = mysqli_num_rows($history);
+$total_messages = mysqli_num_rows($messages);
 
 include 'includes/header.php';
 ?>
@@ -173,7 +187,7 @@ include 'includes/header.php';
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 pb-3 border-bottom gap-3">
         <div>
             <h2 class="fw-bold mb-1"><i class="fa-solid fa-sliders me-2"></i>Admin Dashboard</h2>
-            <p class="text-muted mb-0">Control catalog items and brand history timeline</p>
+            <p class="text-muted mb-0">Control catalog items, brand history timeline, and view contact messages</p>
         </div>
         <div class="d-flex align-items-center gap-2">
             <span class="badge bg-dark rounded-pill px-3 py-2 fs-6 fw-normal">
@@ -187,7 +201,7 @@ include 'includes/header.php';
 
     <!-- Quick Stats Cards -->
     <div class="row g-3 mb-4">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="dashboard-stat-card d-flex align-items-center justify-content-between">
                 <div>
                     <span class="text-muted small uppercase fw-bold">Total Products</span>
@@ -198,7 +212,7 @@ include 'includes/header.php';
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="dashboard-stat-card d-flex align-items-center justify-content-between">
                 <div>
                     <span class="text-muted small uppercase fw-bold">History Events</span>
@@ -206,6 +220,17 @@ include 'includes/header.php';
                 </div>
                 <div class="bg-light p-3 rounded-circle text-dark">
                     <i class="fa-solid fa-timeline fs-3"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-stat-card d-flex align-items-center justify-content-between">
+                <div>
+                    <span class="text-muted small uppercase fw-bold">Contact Messages</span>
+                    <h3 class="fw-bold mb-0 mt-1"><?= $total_messages; ?> Messages</h3>
+                </div>
+                <div class="bg-light p-3 rounded-circle text-dark">
+                    <i class="fa-solid fa-envelope fs-3"></i>
                 </div>
             </div>
         </div>
@@ -228,6 +253,14 @@ include 'includes/header.php';
         <li class="nav-item">
             <button class="nav-link fw-bold" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button">
                 <i class="fa-solid fa-clock-rotate-left me-2"></i>History Management
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link fw-bold" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages" type="button">
+                <i class="fa-solid fa-envelope-open-text me-2"></i>Contact Messages
+                <?php if ($total_messages > 0): ?>
+                    <span class="badge bg-danger rounded-pill ms-1"><?= $total_messages; ?></span>
+                <?php endif; ?>
             </button>
         </li>
     </ul>
@@ -381,6 +414,56 @@ include 'includes/header.php';
                 </div>
             </div>
         </div>
+
+        <!-- MESSAGES TAB -->
+        <div class="tab-pane fade" id="messages" role="tabpanel">
+            <div class="card dashboard-card p-4">
+                <h5 class="fw-bold mb-3"><i class="fa-solid fa-inbox me-2"></i>Received Messages</h5>
+                <div class="table-responsive">
+                    <table class="table custom-admin-table align-middle">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Sender Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Submitted At</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                            $messages_array = [];
+                            if ($total_messages > 0):
+                                while ($row = mysqli_fetch_assoc($messages)): 
+                                    $messages_array[] = $row;
+                            ?>
+                                    <tr>
+                                        <td class="fw-bold"><?= $row['id']; ?></td>
+                                        <td class="fw-semibold"><?= htmlspecialchars($row['first_name'] . ' ' . $row['last_name']); ?></td>
+                                        <td><a href="mailto:<?= htmlspecialchars($row['email']); ?>" class="text-decoration-none"><?= htmlspecialchars($row['email']); ?></a></td>
+                                        <td class="fw-semibold"><?= htmlspecialchars($row['subject']); ?></td>
+                                        <td><span class="text-muted small"><?= date("d M Y H:i", strtotime($row['created_at'])); ?></span></td>
+                                        <td>
+                                            <button class="btn btn-custom-outline-dark btn-sm me-1" data-bs-toggle="modal" data-bs-target="#viewMessageModal<?= $row['id']; ?>">
+                                                <i class="fa-solid fa-eye me-1"></i> View Message
+                                            </button>
+                                            <a href="dashboard.php?delete_message=<?= $row['id']; ?>" class="btn btn-custom-danger btn-sm" onclick="return confirm('Are you sure you want to delete this message?')">
+                                                <i class="fa-solid fa-trash-can me-1"></i> Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-4">No contact messages received yet.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -510,4 +593,49 @@ include 'includes/header.php';
 </div>
 <?php endforeach; ?>
 
-<?php include 'includes/footer.php'; ?>
+<!-- 4. VIEW MESSAGE MODALS -->
+<?php foreach ($messages_array as $msg_item): ?>
+<div class="modal fade" id="viewMessageModal<?= $msg_item['id']; ?>" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title fw-bold"><i class="fa-solid fa-envelope-open me-2"></i>Message Details #<?= $msg_item['id']; ?></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label small text-muted mb-0">Sender Name</label>
+                        <p class="fw-bold mb-0"><?= htmlspecialchars($msg_item['first_name'] . ' ' . $msg_item['last_name']); ?></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small text-muted mb-0">Sender Email</label>
+                        <p class="fw-bold mb-0"><a href="mailto:<?= htmlspecialchars($msg_item['email']); ?>"><?= htmlspecialchars($msg_item['email']); ?></a></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small text-muted mb-0">Subject</label>
+                        <p class="fw-bold mb-0"><?= htmlspecialchars($msg_item['subject']); ?></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small text-muted mb-0">Received At</label>
+                        <p class="fw-bold mb-0"><?= date("d M Y H:i:s", strtotime($msg_item['created_at'])); ?></p>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <label class="form-label small text-muted mb-1">Message Content</label>
+                    <div class="bg-light p-3 rounded border" style="white-space: pre-wrap; font-size: 0.95rem;"><?= htmlspecialchars($msg_item['message']); ?></div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary btn-sm rounded-pill px-3" data-bs-dismiss="modal">Close</button>
+                <a href="mailto:<?= htmlspecialchars($msg_item['email']); ?>?subject=Re: <?= urlencode($msg_item['subject']); ?>" class="btn btn-custom-dark btn-sm rounded-pill px-4">
+                    <i class="fa-solid fa-paper-plane me-1"></i> Reply Email
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endforeach; ?>
+
+<?php include 'includes/footer.php'; ?> 

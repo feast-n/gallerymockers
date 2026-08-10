@@ -51,7 +51,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <div class="d-flex align-items-center gap-2">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <?php if (isset($_SESSION['role_name']) && $_SESSION['role_name'] === 'Admin'): ?>
-                        <a href="dashboard.php" class="btn btn-custom-outline-dark btn-sm rounded-pill px-3">
+                        <a href="dashboard.php" class="btn btn-custom-outline-dark btn-sm rounded-pill px-3" <?php echo ($current_page == 'dashboard.php') ? 'active' : ''; ?>>
                             <i class="fa-solid fa-gauge-high me-1"></i> Dashboard
                         </a>
                     <?php endif; ?>
